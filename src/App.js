@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { db } from './firebase';
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 
 function App() {
+
+const [notes, setNotes] = useState([]);
+const [newTitle, setNewTitle] = useState('');
+const [newContent, setNewContent] = useState('');
+
+const notesRef = collection(db, 'notes');
+
+  useEffect(() => {
+    const getNotes = async () => {
+      const data = await getDocs(notesRef);
+     setNotes(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+  
+    getNotes();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {notes.map((note) => {
+        return (
+          <div>
+            <h2>{note.title}</h2>
+            <p>{note.content}</p>
+          </div>
+        )
+      })}
     </div>
   );
 }
