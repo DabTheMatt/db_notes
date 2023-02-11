@@ -5,7 +5,7 @@ import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase
 function App() {
 
 const [notes, setNotes] = useState([]);
-const [newTitle, setNewTitle] = useState('');
+const [newTitle, setNewTitle] = useState('ff');
 const [newContent, setNewContent] = useState('');
 
 const notesRef = collection(db, 'notes');
