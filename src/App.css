@@ -3,3 +3,9 @@
   flex-direction: column;
   width: 70%;
 }
+
+.edit-note-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
