@@ -27,6 +27,12 @@ function App() {
     setNewContent('');
   };
 
+  const editNote = (id, title, content) => {
+    setEditTitle(title);
+    setEditContent(content);
+    console.log(id, title, content);
+  }
+
   const deleteNote = async (id) => {
     const noteDoc = doc(db, 'notes', id);
     await deleteDoc(noteDoc);
@@ -79,6 +85,7 @@ function App() {
             <h2>{note.title}</h2>
             <p>{note.content}</p>
             <button onClick={() => {deleteNote(note.id)}}>delete</button>
+            <button onClick={() => {editNote(note.id, note.title, note.content)}}>edit</button>
           </div>
         );
       })}
