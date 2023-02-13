@@ -16,10 +16,9 @@ function App() {
   const [newContent, setNewContent] = useState("");
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
+  const [editMode, setEditMode] = useState(false);
 
   const notesRef = collection(db, "notes");
-
-
 
   const createNote = async () => {
     await addDoc(notesRef, { title: newTitle, content: newContent });
@@ -28,9 +27,18 @@ function App() {
   };
 
   const editNote = (id, title, content) => {
-    setEditTitle(title);
+
     setEditContent(content);
+    let tempNotes = notes;
+    tempNotes.map((el) => {
+      if (el.id === id) {
+        el.editMode = !el.editMode;
+      }
+    setNotes(tempNotes);
+    })
+
     console.log(id, title, content);
+    console.log('edit mode', editMode);
   }
 
   const deleteNote = async (id) => {
@@ -64,6 +72,7 @@ function App() {
         <input
           type="text"
           placeholder="title..."
+          value={newTitle}
           onChange={(event) => {
             setNewTitle(event.target.value);
           }}
@@ -73,6 +82,7 @@ function App() {
           rows="10"
           cols="30"
           placeholder="content..."
+          value={newContent}
           onChange={(event) => {
             setNewContent(event.target.value);
           }}
@@ -81,11 +91,27 @@ function App() {
       </div>
       {notes.map((note) => {
         return (
-          <div key={note.id}>
-            <h2>{note.title}</h2>
-            <p>{note.content}</p>
-            <button onClick={() => {deleteNote(note.id)}}>delete</button>
-            <button onClick={() => {editNote(note.id, note.title, note.content)}}>edit</button>
+          <div>
+          {note.editMode ? 
+            (<div key={note.id}>
+              <input
+          type="text"
+          placeholder="title..."
+          value={newTitle}
+          onChange={(event) => {
+            setNewTitle(event.target.value);
+          }}></input>
+              <p>{note.content}</p>
+              
+              <button onClick={() => {updateNote(note.id, note.title, note.content)}}>save note</button>
+            </div>) :
+            (<div key={note.id}>
+              <h2>{note.title}</h2>
+              <p>{note.content}</p>
+              <button onClick={() => {deleteNote(note.id)}}>delete</button>
+              <button onClick={() => {editNote(note.id, note.title, note.content)}}>edit</button>
+            </div>)
+          }
           </div>
         );
       })}
