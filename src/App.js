@@ -17,6 +17,7 @@ function App() {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editMode, setEditMode] = useState(false);
+  //useless comment
 
   const notesRef = collection(db, "notes");
 
