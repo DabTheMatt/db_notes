@@ -18,6 +18,7 @@ function App() {
   const [editContent, setEditContent] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [merked, setMarked] = useState(false);
+  const [reMerked, setReMarked] = useState(false);
 
   const notesRef = collection(db, "notes");
 
